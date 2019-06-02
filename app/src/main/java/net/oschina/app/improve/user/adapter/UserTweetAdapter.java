@@ -181,8 +181,8 @@ public class UserTweetAdapter extends BaseGeneralRecyclerAdapter<Tweet> implemen
 
         holder.mViewLikeState.setImageResource(
                 item.isLiked()
-                        ? R.mipmap.ic_thumbup_actived
-                        : R.mipmap.ic_thumb_normal);
+                        ? R.drawable.uikit_resource_drawable_praise_icon_highlight_20
+                        : R.drawable.uikit_resource_drawable_praise_icon_def_20);
         holder.mLinearLike.setTag(position);
         holder.mLinearLike.setOnClickListener(mOnLikeClickListener);
         holder.mLinearDispatch.setTag(position);
@@ -193,7 +193,15 @@ public class UserTweetAdapter extends BaseGeneralRecyclerAdapter<Tweet> implemen
 
         /* - statistics - */
         if (item.getStatistics() != null) {
-            holder.mViewLikeCount.setText(String.valueOf(item.getStatistics().getLike()));
+            String likeCount = String.valueOf(item.getStatistics().getLike());
+            holder.mViewLikeCount.setText("0".equals(likeCount) ? "" : likeCount);
+//            ViewGroup.LayoutParams layoutParams = holder.mLikePadding.getLayoutParams();
+//            int likeCountLen = likeCount.length();
+//            if (likeCount.equals("0"))
+//                likeCountLen = 0;
+//            layoutParams.width -= 6 * likeCountLen;
+//            holder.mLikePadding.setLayoutParams(layoutParams);
+
             holder.mViewCmmCount.setText(String.valueOf(item.getStatistics().getComment()));
             int mDispatchCount = item.getStatistics().getTransmit();
             if (mDispatchCount <= 0) {
@@ -253,6 +261,8 @@ public class UserTweetAdapter extends BaseGeneralRecyclerAdapter<Tweet> implemen
         } else {
             holder.mLayoutRef.setVisibility(View.GONE);
         }
+
+        holder.mLocation.setText("西溪首座");
     }
 
     /**
@@ -310,6 +320,15 @@ public class UserTweetAdapter extends BaseGeneralRecyclerAdapter<Tweet> implemen
         LinearLayout mLinearLike;
         @Bind(R.id.ll_dispatch)
         LinearLayout mLinearDispatch;
+
+        @Bind(R.id.tv_location)
+        TextView mLocation;
+
+        @Bind(R.id.tv_comment_padding)
+        TextView mCommentPadding;
+
+        @Bind(R.id.tv_like_padding)
+        TextView mLikePadding;
 
 
         public ViewHolder(View itemView) {
