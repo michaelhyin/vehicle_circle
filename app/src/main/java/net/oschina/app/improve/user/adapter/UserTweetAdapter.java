@@ -3,6 +3,7 @@ package net.oschina.app.improve.user.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -261,6 +262,13 @@ public class UserTweetAdapter extends BaseGeneralRecyclerAdapter<Tweet> implemen
         } else {
             holder.mLayoutRef.setVisibility(View.GONE);
         }
+
+        Drawable drawableLeft = mContext.getResources().getDrawable(
+                R.drawable.lbs_point);
+
+        holder.mLocation.setCompoundDrawablesWithIntrinsicBounds(drawableLeft,
+                null, null, null);
+        holder.mLocation.setCompoundDrawablePadding((int) TDevice.dipToPx(mContext.getResources(), 6f));
 
         holder.mLocation.setText("西溪首座");
     }
