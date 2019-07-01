@@ -9,7 +9,7 @@ import net.oschina.app.improve.notice.NoticeManager;
  */
 public class ResultBean<T> {
     public static final int RESULT_SUCCESS = 1;
-    public static final int RESULT_UNKNOW = 0;
+    public static final int RESULT_UNKNOWN = 0;
     public static final int RESULT_ERROR = -1;
     public static final int RESULT_NOT_FIND = 404;
     public static final int RESULT_NOT_LOGIN = 201;

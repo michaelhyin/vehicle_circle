@@ -241,7 +241,7 @@ public class TweetPublishService extends Service implements Contract.IService {
     private void handleActionPublish(String content, String[] images, About.Share share, int startId) {
         TweetPublishModel model = new TweetPublishModel(content, images, share);
         TweetPublishCache.save(getApplicationContext(), model.getId(), model);
-        Contract.IOperator operator = new LeanCloudTweetPublishOperator(model, this, startId);
+        Contract.IOperator operator = new FuelTankTweetPublishOperator(model, this, startId);
         operator.run();
     }
 
@@ -260,7 +260,7 @@ public class TweetPublishService extends Service implements Contract.IService {
         }
         TweetPublishModel model = TweetPublishCache.get(getApplicationContext(), id);
         if (model != null) {
-            operator = new LeanCloudTweetPublishOperator(model, this, startId);
+            operator = new FuelTankTweetPublishOperator(model, this, startId);
             operator.run();
             return false;
         }

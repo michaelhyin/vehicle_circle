@@ -27,7 +27,7 @@ import net.oschina.app.AppConfig;
 import net.oschina.app.AppContext;
 import net.oschina.app.R;
 import net.oschina.app.api.LeanCloudPatternOpt;
-import net.oschina.app.api.remote.LeanCloudApi;
+import net.oschina.app.api.remote.FuelTankApi;
 import net.oschina.app.api.remote.OSChinaApi;
 import net.oschina.app.bean.Constants;
 import net.oschina.app.improve.account.AccountHelper;
@@ -228,7 +228,7 @@ public class TweetFragment extends BaseGeneralRecyclerFragment<Tweet>
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 try {
-                    responseString = LeanCloudPatternOpt.getTweetsPatternStr(responseString);
+//                    responseString = LeanCloudPatternOpt.getTweetsPatternStr(responseString);
                     ResultBean<PageBean<Tweet>> resultBean = AppOperator.createGson().fromJson(responseString, getType());
                     if (resultBean != null && resultBean.isSuccess() && resultBean.getResult().getItems() != null) {
                         setListData(resultBean);
@@ -394,21 +394,21 @@ public class TweetFragment extends BaseGeneralRecyclerFragment<Tweet>
             case CATALOG_NEW:
                 //注册草稿箱查询操作
                 TweetPublishService.startActionSearchFailed(AppContext.context());
-                LeanCloudApi.getTweetList(null, null, 1, 1, pageToken, tweetHandler);
+                FuelTankApi.getTweetList(null, null, 1, 1, pageToken, tweetHandler);
                 break;
             case CATALOG_HOT:
-                LeanCloudApi.getTweetList(null, null, 1, 2, pageToken, tweetHandler);
+                FuelTankApi.getTweetList(null, null, 1, 2, pageToken, tweetHandler);
                 break;
             case CATALOG_SOMEONE:
             case CATALOG_MYSELF:
                 if (mUserId <= 0) break;
-                LeanCloudApi.getTweetList(mUserId, null, null, 1, pageToken, tweetHandler);
+                FuelTankApi.getTweetList(mUserId, null, null, 1, pageToken, tweetHandler);
                 break;
             case CATALOG_FRIENDS:
-                LeanCloudApi.getTweetList(null, null, 2, 1, pageToken, tweetHandler);
+                FuelTankApi.getTweetList(null, null, 2, 1, pageToken, tweetHandler);
                 break;
             case CATALOG_TAG:
-                LeanCloudApi.getTweetList(null, tag, null, 1, pageToken, tweetHandler);
+                FuelTankApi.getTweetList(null, tag, null, 1, pageToken, tweetHandler);
                 break;
         }
     }
@@ -534,8 +534,8 @@ public class TweetFragment extends BaseGeneralRecyclerFragment<Tweet>
                 final List<Tweet> items = pageBean.getItems();
                 final boolean isEmpty = items == null || items.size() == 0;
                 if (!isEmpty)
-                    //mBean.setNextPageToken(pageBean.getNextPageToken());
-                    mBean.setNextPageToken(items.size());
+                    mBean.setNextPageToken(pageBean.getNextPageToken());
+                    //mBean.setNextPageToken(items.size());
                 if (isRefreshing) {
                     AppConfig.getAppConfig(getActivity()).set("system_time", resultBean.getTime());
                     mAdapter.clear();
