@@ -51,7 +51,8 @@ import cz.msebera.android.httpclient.protocol.HttpContext;
 public class FuelTankApiHttpClient {
     public final static String HOST = "www.ucloud.cn";
     //app id前8位
-    public static String API_URL = "106.75.91.104:8080/%s";
+    public static String API_URL = "http://106.75.91.104:8080/%s";
+    //public static String API_URL = "http://127.0.0.1:8080/%s";
     static class ApiAsyncHttpClient extends AsyncHttpClient {
         @Override
         protected AsyncHttpRequest newAsyncHttpRequest(DefaultHttpClient client, HttpContext httpContext, HttpUriRequest uriRequest, String contentType, ResponseHandlerInterface responseHandler, Context context) {

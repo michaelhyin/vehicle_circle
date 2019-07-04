@@ -16,8 +16,10 @@ import com.avos.avoscloud.im.v2.AVIMClient;
 import com.baidu.mapapi.SDKInitializer;
 
 import net.oschina.app.api.ApiHttpClient;
+import net.oschina.app.api.FuelTankApiHttpClient;
 import net.oschina.app.api.LeanCloudApiHttpClient;
 import net.oschina.app.api.entity.UserInfo;
+import net.oschina.app.api.remote.FuelTankApi;
 import net.oschina.app.improve.account.AccountHelper;
 import net.oschina.app.improve.base.activities.BaseActivity;
 import net.oschina.app.improve.detail.db.DBManager;
@@ -70,6 +72,7 @@ public class OSCApplication extends AppContext {
         // 初始化网络请求
         ApiHttpClient.init(this);
         LeanCloudApiHttpClient.init(this);
+        FuelTankApiHttpClient.init(this);
         //初始化百度地图
         SDKInitializer.initialize(this);
         DBManager.init(this);

@@ -122,7 +122,7 @@ public class FuelTankApi {
 //            params.put("aboutType", share.type);
 //            params.put("aboutFromTweetId", share.fromTweetId);
 //        }
-        post("vehicle_circle/tweet/publish", params, handler);
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/publish", params, handler);
     }
 
 
