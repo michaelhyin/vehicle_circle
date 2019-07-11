@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import net.oschina.app.R;
+import net.oschina.app.api.remote.FuelTankApi;
 import net.oschina.app.api.remote.OSChinaApi;
 import net.oschina.app.improve.account.AccountHelper;
 import net.oschina.app.improve.app.AppOperator;
@@ -83,7 +84,7 @@ public class UserTweetAdapter extends BaseGeneralRecyclerAdapter<Tweet> implemen
                 final int position = Integer.valueOf(v.getTag().toString());
                 Tweet tweet = getItem(position);
                 if (tweet == null) return;
-                OSChinaApi.reverseTweetLike(tweet.getId(), new TweetLikedHandler(position));
+                FuelTankApi.reverseTweetLike(tweet.getId(), new TweetLikedHandler(position));
             }
         };
         mOnDispatchClickListener = new View.OnClickListener() {

@@ -222,6 +222,7 @@ public class TweetFragment extends BaseGeneralRecyclerFragment<Tweet>
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+
                 onRequestError();
             }
 

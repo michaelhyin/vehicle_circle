@@ -372,7 +372,7 @@ class FuelTankTweetPublishOperator implements Runnable, Contract.IOperator {
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 try {
 
-                    responseString = LeanCloudPatternOpt.getPubTweetPatternStr(responseString);
+                    //responseString = LeanCloudPatternOpt.getPubTweetPatternStr(responseString);
 
                     Type type = new TypeToken<ResultBean>() {
                     }.getType();

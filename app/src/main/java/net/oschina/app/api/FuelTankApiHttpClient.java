@@ -210,13 +210,13 @@ public class FuelTankApiHttpClient {
         c.addHeader("Accept-Language", Locale.getDefault().toString());
         c.addHeader("Host", HOST);
         c.addHeader("Connection", "Keep-Alive");
-        c.addHeader("Accept", "image/webp");
+        c.addHeader("Accept", "*/*");
         c.getHttpClient().getParams()
                 .setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
 
-        c.addHeader("Content-Type", "application/json");
-        c.addHeader("X-LC-Id", BuildConfig2.LC_APP_ID);
-        c.addHeader("X-LC-Key", BuildConfig2.LC_APP_KEY);
+        //c.addHeader("Content-Type", "application/json");
+        //c.addHeader("X-LC-Id", BuildConfig2.LC_APP_ID);
+        //c.addHeader("X-LC-Key", BuildConfig2.LC_APP_KEY);
 
 
         c.setUserAgent(ApiClientHelper.getUserAgent(AppContext.getInstance()));

@@ -15,6 +15,7 @@ import net.oschina.app.api.LeanCloudApiHttpClient;
 import net.oschina.app.api.LeanCloudParameters;
 import net.oschina.app.improve.account.AccountHelper;
 import net.oschina.app.improve.bean.simple.About;
+import net.oschina.app.improve.constant.TopicType;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class FuelTankApi {
         }
         params.put("order", order);
         params.put("pageToken", pageToken);
-        FuelTankApiHttpClient.get("vehicle_circle/tweet/tweet_list", params, handler);
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/tweet_list", params, handler);
     }
 
     /**
@@ -114,8 +115,39 @@ public class FuelTankApi {
         if (TextUtils.isEmpty(content))
             throw new NullPointerException("content is not null.");
         RequestParams params = new RequestParams();
+        params.put("authorId", AccountHelper.getUserId());
         params.put("content", content);
-        params.put("imagesUrls", imagesUrls);
+        //params.put("images", imagesUrls);
+        String jsonArrayStr = "[ ";
+
+        for(int i = 0; i < imagesUrls.size(); i++)
+        {
+            String url = imagesUrls.get(i);
+            String fileName = "";
+            if (url != null)
+            {
+                fileName = url.substring(url.lastIndexOf('/')+1);
+            }
+
+            int w = 0;
+            int h = 0;
+            String href = "";
+            String thumb = url;
+            String type = "0";
+
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("h", h);
+            jsonObj.put("w", w);
+            jsonObj.put("href", url);
+            jsonObj.put("name", fileName);
+            jsonObj.put("type", type);
+            jsonObj.put("thumb", url);
+            String jsonStr = jsonObj.toString();
+            jsonArrayStr += jsonStr;
+            jsonArrayStr += ", ";
+        }
+        jsonArrayStr += " ]";
+        params.put("images", jsonArrayStr);
 //        params.put("audio", audioToken);
 //        if (About.check(share)) {
 //            params.put("aboutId", share.id);
@@ -124,6 +156,21 @@ public class FuelTankApi {
 //        }
         FuelTankApiHttpClient.post("vehicle_circle/tweet/publish", params, handler);
     }
+
+    /**
+     * 更改动弹点赞状态
+     *
+     * @param sourceId 动弹id
+     * @param handler  回调
+     */
+    public static void reverseTweetLike(long sourceId, TextHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("topicId", sourceId);
+        params.put("topicType", TopicType.POST);
+        params.put("uid", AccountHelper.getUserId());
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/like", params, handler);
+    }
+
 
 
 }
