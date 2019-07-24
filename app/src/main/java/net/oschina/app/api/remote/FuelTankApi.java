@@ -1,10 +1,15 @@
 package net.oschina.app.api.remote;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -17,12 +22,16 @@ import net.oschina.app.improve.account.AccountHelper;
 import net.oschina.app.improve.bean.simple.About;
 import net.oschina.app.improve.constant.TopicType;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
 
+import static com.tencent.open.utils.Global.getContext;
 import static net.oschina.app.api.ApiHttpClient.post;
 
 /**
@@ -123,14 +132,62 @@ public class FuelTankApi {
         for(int i = 0; i < imagesUrls.size(); i++)
         {
             String url = imagesUrls.get(i);
+            int w = 0;
+            int h = 0;
+            String pureUrl = url.substring(0, url.lastIndexOf("?"));
+            w = Integer.parseInt(url.substring(url.lastIndexOf("w=")+2, url.lastIndexOf("h=")-1));
+            h = Integer.parseInt(url.substring(url.lastIndexOf("h=")+2));
+//            try
+//            {
+//
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//
+//                /**
+//                 * 最关键在此，把options.inJustDecodeBounds = true;
+//                 * 这里再decodeFile()，返回的bitmap为空，但此时调用options.outHeight时，已经包含了图片的高了
+//                 */
+//                options.inJustDecodeBounds = true;
+//                Bitmap bitmap = BitmapFactory.decodeFile(url, options); // 此时返回的bitmap为null
+//
+//                /**
+//                 *options.outHeight为原始图片的高
+//                 */
+//                w = options.outWidth;
+//                h = options.outHeight;
+////
+////                URL urlObj = new URL(url);
+////                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+////                conn.setDoInput(true);
+////                conn.connect();
+////                InputStream is = conn.getInputStream();
+////                Bitmap image = BitmapFactory.decodeStream(is);
+////                w = image.getWidth();      // 源图宽度
+////                h = image.getHeight();    // 源图高度
+////                is.close();
+////                conn.disconnect();
+////                Glide.with(getContext())
+////                        .load(url)
+////                        .asBitmap()//强制Glide返回一个Bitmap对象
+////                        .into(new SimpleTarget<Bitmap>() {
+////                            @Override
+////                            public final void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+////                               final int w1= bitmap.getWidth();
+////                                final int h1 = bitmap.getHeight();
+////
+////                            }
+////                        });
+//            }
+//            catch (Exception e)
+//            {
+//                e.printStackTrace();
+//            }
+
             String fileName = "";
             if (url != null)
             {
                 fileName = url.substring(url.lastIndexOf('/')+1);
             }
 
-            int w = 0;
-            int h = 0;
             String href = "";
             String thumb = url;
             String type = "0";
@@ -170,7 +227,4 @@ public class FuelTankApi {
         params.put("uid", AccountHelper.getUserId());
         FuelTankApiHttpClient.post("vehicle_circle/tweet/like", params, handler);
     }
-
-
-
 }

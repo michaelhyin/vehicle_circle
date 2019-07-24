@@ -1,6 +1,8 @@
 package net.oschina.app.api.remote;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,6 +25,9 @@ import net.oschina.app.improve.write.Blog;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -210,14 +215,32 @@ public class LeanCloudApi {
         for(int i = 0; i < imagesUrls.size(); i++)
         {
             String url = imagesUrls.get(i);
+            int w = 0;
+            int h = 0;
+            try
+            {
+                URL urlObj = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection) urlObj.openConnection();
+                conn.setDoInput(true);
+                conn.connect();
+                InputStream is = conn.getInputStream();
+                Bitmap image = BitmapFactory.decodeStream(is);
+                w = image.getWidth();      // 源图宽度
+                h = image.getHeight();    // 源图高度
+                is.close();
+                conn.disconnect();
+            }
+            catch (Exception e)
+            {
+
+            }
+
             String fileName = "";
             if (url != null)
             {
                 fileName = url.substring(url.lastIndexOf('/')+1);
             }
 
-            int w = 0;
-            int h = 0;
             String href = "";
             String thumb = url;
             String type = "0";

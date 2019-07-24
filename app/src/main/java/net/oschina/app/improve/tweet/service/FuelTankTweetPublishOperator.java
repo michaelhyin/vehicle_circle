@@ -1,6 +1,7 @@
 package net.oschina.app.improve.tweet.service;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.SystemClock;
 import android.text.TextUtils;
@@ -316,23 +317,36 @@ class FuelTankTweetPublishOperator implements Runnable, Contract.IOperator {
         } catch (IOException e) {
 
         }
+        BitmapFactory.Options options = new BitmapFactory.Options();
+
+        /**
+         * 最关键在此，把options.inJustDecodeBounds = true;
+         * 这里再decodeFile()，返回的bitmap为空，但此时调用options.outHeight时，已经包含了图片的高了
+         */
+        options.inJustDecodeBounds = true;
+        Bitmap bitmap = BitmapFactory.decodeFile(path, options); // 此时返回的bitmap为null
+
+        /**
+         *options.outHeight为原始图片的高
+         */
+        final int w = options.outWidth;
+        final int h = options.outHeight;
         String fileName = path.substring(path.lastIndexOf("/") + 1);
         final AVFile file = new AVFile(fileName, data);
         file.saveInBackground(new SaveCallback() {
-                                  @Override
-                                  public void done(AVException e) {
-                                      if (e != null) {
+            @Override
+            public void done(AVException e) {
+                if (e != null) {
+                } else {
+                    String url = file.getUrl();
+                    url+=("?w="+String.valueOf(w)+"&h="+String.valueOf(h));
+                    uploadImages(index+1, url, paths, runnable);
 
-                                      } else {
-                                          String url = file.getUrl();
-                                          uploadImages(index+1, url, paths, runnable);
+                }
 
-                                      }
-
-                                  }
-                              });
+            }
+        });
     }
-
     @Override
     public void stop() {
         final Contract.IService service = this.service;

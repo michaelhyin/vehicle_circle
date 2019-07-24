@@ -51,6 +51,7 @@ import net.oschina.app.improve.utils.parser.StringParser;
 import net.oschina.app.improve.utils.parser.TweetParser;
 import net.oschina.app.improve.widget.IdentityView;
 import net.oschina.app.improve.widget.PortraitView;
+import net.oschina.app.improve.widget.TweetDetailPicturesLayout;
 import net.oschina.app.improve.widget.TweetPicturesLayout;
 import net.oschina.app.improve.widget.adapter.OnKeyArrivedListenerAdapterV2;
 import net.oschina.app.util.HTMLUtil;
@@ -102,7 +103,7 @@ public class TweetDetailActivity extends BackActivity implements TweetDetailCont
     @Bind(R.id.tv_content)
     TextView mContent;
     @Bind(R.id.tweet_pics_layout)
-    TweetPicturesLayout mLayoutGrid;
+    TweetDetailPicturesLayout mLayoutGrid;
     @Bind(R.id.tv_ref_title)
     TextView mViewRefTitle;
     @Bind(R.id.tv_ref_content)
@@ -146,7 +147,7 @@ public class TweetDetailActivity extends BackActivity implements TweetDetailCont
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_tweet_detail;
+        return R.layout.activity_tweet_detail_pro;
     }
 
     @Override
@@ -231,11 +232,16 @@ public class TweetDetailActivity extends BackActivity implements TweetDetailCont
             }
         };
 
+        //mAgencyViewImp.resetCmnCount(tweet.getCommentCount());
+        //mAgencyViewImp.resetLikeCount(tweet.getLikeCount());
+        //setupDetailView();
+
+        /*
         OSChinaApi.getTweetDetail(tweet.getId(), new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString,
                                   Throwable throwable) {
-                //Toast.makeText(TweetDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TweetDetailActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -258,6 +264,7 @@ public class TweetDetailActivity extends BackActivity implements TweetDetailCont
                 }
             }
         });
+        */
 
     }
 
