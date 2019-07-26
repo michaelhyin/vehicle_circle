@@ -17,4 +17,16 @@
     <item type="id" name="main_page_more"/>
     <item type="id" name="main_view_pager"/>
 
+    <item type="id" name="comment_list_item_title">false</item>
+    <item type="id" name="comment_list_item_header_view">false</item>
+    <item type="id" name="ll_name">false</item>
+    <item type="id" name="comment_list_item_count_flag">false</item>
+    <item type="id" name="comment_list_item_name">false</item>
+    <item type="id" name="comment_list_item_time">false</item>
+    <item type="id" name="comment_list_item_count_tip">false</item>
+    <item type="id" name="g_line">false</item>
+    <item type="id" name="comment_list_item_count_content">false</item>
+    <item type="id" name="comment_list_item_reply_content_layout">false</item>
+    <item type="id" name="v_long_line">false</item>
+    <item type="id" name="v_short_line">false</item>
 </resources>

@@ -78,6 +78,17 @@
     <!--蔚来app配置-->
     <dimen name="main_page_indicator_view_margin_left">24.0dip</dimen>
     <dimen name="main_page_top_height">42.0dip</dimen>
+    <dimen name="channel_item_margin">25.0dip</dimen>
+    <dimen name="channel_item_margin_top">20.0dip</dimen>
+    <dimen name="public_zero_size">0.0dip</dimen>
+    <dimen name="comment_list_item_content_margin_left">10.0dip</dimen>
+    <dimen name="comment_name_size">16.0sp</dimen>
+    <dimen name="comment_list_item_nio_icon_margin_left">5.0dip</dimen>
+    <dimen name="comment_list_item_time_text_size">12.0sp</dimen>
+    <dimen name="comment_list_item_like_icon_padding">5.0dip</dimen>
+    <dimen name="public_line_height">1.0dip</dimen>
+    <item type="dimen" name="post_detail_line_size">@dimen/public_line_height</item>
+    <dimen name="v_long_line_margin_left">10.0dip</dimen>
 
 
 </resources>
