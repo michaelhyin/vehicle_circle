@@ -13,7 +13,7 @@ public class TweetComment implements Serializable {
     private String pubDate;
     private int appClient;
     private Author author;
-
+    private int replyNum;
     public long getId() {
         return id;
     }
@@ -53,4 +53,13 @@ public class TweetComment implements Serializable {
     public void setAuthor(Author author) {
         this.author = author;
     }
+
+    public int getReplyNum() {
+        return replyNum;
+    }
+
+    public void setReplyNum(int replyNum) {
+        this.replyNum = replyNum;
+    }
+
 }

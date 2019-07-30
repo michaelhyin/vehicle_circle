@@ -215,6 +215,20 @@ public class FuelTankApi {
     }
 
     /**
+     * 请求动弹评论列表
+     *
+     * @param sourceId 动弹id
+     * @param handler  回调
+     */
+    public static void getTweetCommentList(long sourceId, String pageToken, TextHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("sourceId", sourceId);
+        params.put("pageToken", pageToken);
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/comment_list", params, handler);
+    }
+
+
+    /**
      * 更改动弹点赞状态
      *
      * @param sourceId 动弹id

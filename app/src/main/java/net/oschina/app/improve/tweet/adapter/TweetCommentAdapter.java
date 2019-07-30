@@ -1,7 +1,12 @@
 package net.oschina.app.improve.tweet.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +17,22 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 import net.oschina.app.R;
+import net.oschina.app.bean.Comment;
 import net.oschina.app.emoji.InputHelper;
 import net.oschina.app.improve.base.adapter.BaseRecyclerAdapter;
+import net.oschina.app.improve.bean.comment.Reply;
 import net.oschina.app.improve.bean.simple.TweetComment;
 import net.oschina.app.improve.widget.IdentityView;
 import net.oschina.app.improve.widget.PortraitView;
 import net.oschina.app.util.StringUtils;
 import net.oschina.app.util.UIHelper;
+import net.oschina.app.widget.ReplyView;
 import net.oschina.app.widget.TweetTextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.tencent.open.utils.Global.getContext;
 
 /**
  * Created by thanatos
@@ -40,7 +50,7 @@ public class TweetCommentAdapter extends BaseRecyclerAdapter<TweetComment> {
 
     @Override
     protected RecyclerView.ViewHolder onCreateDefaultViewHolder(ViewGroup parent, int type) {
-        return new TweetCommentHolderView(LayoutInflater.from(mContext).inflate(R.layout.list_item_tweet_comment, parent, false));
+        return new TweetCommentHolderView(LayoutInflater.from(mContext).inflate(R.layout.list_item_tweet_comment_pro, parent, false));
     }
 
     @Override
@@ -55,6 +65,37 @@ public class TweetCommentAdapter extends BaseRecyclerAdapter<TweetComment> {
         h.tvName.setText(item.getAuthor().getName());
         h.tvContent.setText(InputHelper.displayEmoji(mContext.getResources(), item.getContent()));
         h.tvTime.setText(StringUtils.formatSomeAgo(item.getPubDate()));
+        if (item.getReplyNum() > 0)
+        {
+            Reply[] replies = new Reply[1];
+            Reply reply = replies[0];
+            reply.setId(0);
+            reply.setContent("问题问的不错");
+            reply.setPubDate("20189023");
+            reply.setAuthor(null);
+            SpannableStringBuilder span = new SpannableStringBuilder("");
+            for (int i = 0; i < replies.length; i++)
+            {
+                //https://blog.csdn.net/xudailong_blog/article/details/86513668
+                reply = replies[i];
+                String str1 = reply.getAuthor().getName() + "：";
+                SpannableStringBuilder span1 = new SpannableStringBuilder(str1);
+                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(ContextCompat.getColor(getContext(),R.color.follow_text_enable_color));
+                span1.setSpan(foregroundColorSpan, 2, str1.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                //SpannableString spannableString = EmojiConversionUtils.getInstance().getExpressionString(context, spannableStr);
+
+                SpannableString spannableString = new SpannableString(reply.getContent());
+                span1.append(spannableString);
+                span.append(span1);
+            }
+            String lastStr = "查看全部回复 " + String.valueOf(item.getReplyNum()) + " 条";
+            SpannableStringBuilder spanLast = new SpannableStringBuilder(lastStr);
+            span.append(spanLast);
+            h.replyView.setText(span);
+            h.replyView.setVisibility(View.VISIBLE);
+        }
+        else
+            h.replyView.setVisibility(View.INVISIBLE);
     }
 
     private View.OnClickListener getOnPortraitClickListener() {
@@ -86,6 +127,8 @@ public class TweetCommentAdapter extends BaseRecyclerAdapter<TweetComment> {
         public ImageView btnReply;
         @Bind(R.id.tv_content)
         public TweetTextView tvContent;
+        @Bind(R.id.reply)
+        public ReplyView replyView;
 
         public TweetCommentHolderView(View view) {
             super(view);
