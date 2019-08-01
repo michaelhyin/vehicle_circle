@@ -20,7 +20,7 @@ import net.oschina.app.R;
 import net.oschina.app.bean.Comment;
 import net.oschina.app.emoji.InputHelper;
 import net.oschina.app.improve.base.adapter.BaseRecyclerAdapter;
-import net.oschina.app.improve.bean.comment.Reply;
+import net.oschina.app.improve.bean.simple.Reply;
 import net.oschina.app.improve.bean.simple.TweetComment;
 import net.oschina.app.improve.widget.IdentityView;
 import net.oschina.app.improve.widget.PortraitView;
@@ -67,17 +67,12 @@ public class TweetCommentAdapter extends BaseRecyclerAdapter<TweetComment> {
         h.tvTime.setText(StringUtils.formatSomeAgo(item.getPubDate()));
         if (item.getReplyNum() > 0)
         {
-            Reply[] replies = new Reply[1];
-            Reply reply = replies[0];
-            reply.setId(0);
-            reply.setContent("问题问的不错");
-            reply.setPubDate("20189023");
-            reply.setAuthor(null);
+            Reply[] replies = item.getReplies();
             SpannableStringBuilder span = new SpannableStringBuilder("");
             for (int i = 0; i < replies.length; i++)
             {
                 //https://blog.csdn.net/xudailong_blog/article/details/86513668
-                reply = replies[i];
+                Reply reply = replies[i];
                 String str1 = reply.getAuthor().getName() + "：";
                 SpannableStringBuilder span1 = new SpannableStringBuilder(str1);
                 ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(ContextCompat.getColor(getContext(),R.color.follow_text_enable_color));

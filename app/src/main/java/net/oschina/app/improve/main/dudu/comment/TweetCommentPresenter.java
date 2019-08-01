@@ -5,6 +5,8 @@ import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import net.oschina.app.R;
+import net.oschina.app.api.remote.FuelTankApi;
+import net.oschina.app.api.remote.LeanCloudApi;
 import net.oschina.app.api.remote.OSChinaApi;
 import net.oschina.app.improve.bean.Tweet;
 import net.oschina.app.improve.bean.base.PageBean;
@@ -36,7 +38,7 @@ class TweetCommentPresenter implements TweetCommentContract.Presenter {
     public void onRefreshing() {
         if (mTweet == null)
             return;
-        OSChinaApi.getTweetCommentList(mTweet.getId(), "", new TextHttpResponseHandler() {
+        FuelTankApi.getTweetCommentList(mTweet.getId(), null, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 mView.showNetworkError(R.string.network_timeout_hint);
@@ -73,7 +75,7 @@ class TweetCommentPresenter implements TweetCommentContract.Presenter {
     public void onLoadMore() {
         if (mTweet == null)
             return;
-        OSChinaApi.getTweetCommentList(mTweet.getId(), mNextToken, new TextHttpResponseHandler() {
+        FuelTankApi.getTweetCommentList(mTweet.getId(), mNextToken, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 mView.showNetworkError(R.string.network_timeout_hint);

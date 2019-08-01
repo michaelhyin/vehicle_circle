@@ -14,6 +14,7 @@ import com.upyun.library.listener.UpCompleteListener;
 
 import net.oschina.app.AppContext;
 import net.oschina.app.R;
+import net.oschina.app.api.remote.FuelTankApi;
 import net.oschina.app.api.remote.OSChinaApi;
 import net.oschina.app.improve.account.AccountHelper;
 import net.oschina.app.improve.bean.base.ResultBean;
@@ -434,7 +435,7 @@ class TweetPublishOperator implements Runnable, Contract.IOperator {
         // 如果相关节点中定义了评论参数，那么将执行评论
         About.Share share = model.getAboutShare();
         if (About.check(share) && share.commitTweetId > 0) {
-            OSChinaApi.pubTweetComment(share.commitTweetId, model.getContent(), 0, new LopperResponseHandler() {
+            FuelTankApi.pubTweetComment(share.commitTweetId, model.getContent(), 0L, new LopperResponseHandler() {
                 @Override
                 public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 }

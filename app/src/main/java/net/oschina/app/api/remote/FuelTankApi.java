@@ -85,29 +85,6 @@ public class FuelTankApi {
     public static final int TYPE_USER_FLOWS = 1;//你关注的人
     public static final int TYPE_USER_FANS = 2;//关注你的人
 
-    /**
-     * 动弹列表
-     *
-     * @param aid     author id, 请求某人的动弹
-     * @param tag     相关话题
-     * @param type    1: 广场（所有动弹）， 2：朋友圈（好友动弹）
-     * @param order   1: 最新， 2：最热
-     * @param handler handler
-     */
-    public static void getTweetList(Long authorId, String tag, Integer type, Integer order
-            , String pageToken, TextHttpResponseHandler handler) {
-        RequestParams params = new RequestParams();
-        if (authorId != null) {
-            params.put("authorId", authorId);
-        } else if (!TextUtils.isEmpty(tag)) {
-            params.put("tag", tag);
-        } else {
-            params.put("type", type);
-        }
-        params.put("order", order);
-        params.put("pageToken", pageToken);
-        FuelTankApiHttpClient.post("vehicle_circle/tweet/tweet_list", params, handler);
-    }
 
     /**
      * 发布动弹
@@ -215,18 +192,28 @@ public class FuelTankApi {
     }
 
     /**
-     * 请求动弹评论列表
+     * 动弹列表
      *
-     * @param sourceId 动弹id
-     * @param handler  回调
+     * @param aid     author id, 请求某人的动弹
+     * @param tag     相关话题
+     * @param type    1: 广场（所有动弹）， 2：朋友圈（好友动弹）
+     * @param order   1: 最新， 2：最热
+     * @param handler handler
      */
-    public static void getTweetCommentList(long sourceId, String pageToken, TextHttpResponseHandler handler) {
+    public static void getTweetList(Long uId, String tag, Integer type, Integer order
+            , String pageToken, TextHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
-        params.put("sourceId", sourceId);
+        if (uId != null) {
+            params.put("uId", uId);
+        } else if (!TextUtils.isEmpty(tag)) {
+            params.put("tag", tag);
+        } else {
+            params.put("type", type);
+        }
+        params.put("order", order);
         params.put("pageToken", pageToken);
-        FuelTankApiHttpClient.post("vehicle_circle/tweet/comment_list", params, handler);
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/tweet_list", params, handler);
     }
-
 
     /**
      * 更改动弹点赞状态
@@ -234,11 +221,71 @@ public class FuelTankApi {
      * @param sourceId 动弹id
      * @param handler  回调
      */
-    public static void reverseTweetLike(long sourceId, TextHttpResponseHandler handler) {
+    public static void reverseTweetLike(Long sourceId, TextHttpResponseHandler handler) {
         RequestParams params = new RequestParams();
         params.put("topicId", sourceId);
         params.put("topicType", TopicType.POST);
-        params.put("uid", AccountHelper.getUserId());
-        FuelTankApiHttpClient.post("vehicle_circle/tweet/like", params, handler);
+        params.put("uId", AccountHelper.getUserId());
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/tweet_like", params, handler);
     }
+
+    /**
+     * 发布评论
+     */
+    public static void pubTweetComment(Long topicId, String content, Long replyId, AsyncHttpResponseHandler handler) {
+        if (TextUtils.isEmpty(content))
+            throw new NullPointerException("content is not null.");
+        RequestParams params = new RequestParams();
+        params.put("topicId", topicId);
+        params.put("uId", AccountHelper.getUserId());
+        params.put("content", content);
+        params.put("topicType", TopicType.POST);
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/publish_comment", params, handler);
+    }
+
+    /**
+     * 请求动弹评论列表
+     *
+     * @param sourceId 动弹id
+     * @param handler  回调
+     */
+    public static void getTweetCommentList(Long sourceId, String pageToken, TextHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uId", AccountHelper.getUserId());
+        params.put("sourceId", sourceId);
+        params.put("pageToken", pageToken);
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/comment_list", params, handler);
+    }
+
+    /**
+     * 发布评论
+     */
+    public static void pubTweetReply(Long commentId, Long replyId, int replyType, String content,
+                                     Long fromUid, Long toUid, AsyncHttpResponseHandler handler) {
+        if (TextUtils.isEmpty(content))
+            throw new NullPointerException("content is not null.");
+        RequestParams params = new RequestParams();
+        params.put("commentId",commentId);
+        params.put("replyId",replyId);
+        params.put("replyType",replyType);
+        params.put("content", content);
+        params.put("fromUid", fromUid);
+        params.put("toUid", toUid);
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/publish_reply", params, handler);
+    }
+
+    /**
+     * 请求动弹评论列表
+     *
+     * @param sourceId 动弹id
+     * @param handler  回调
+     */
+    public static void getTweetReplyList(long sourceId, String pageToken, TextHttpResponseHandler handler) {
+        RequestParams params = new RequestParams();
+        params.put("uId", AccountHelper.getUserId());
+        params.put("sourceId", sourceId);
+        params.put("pageToken", pageToken);
+        FuelTankApiHttpClient.post("vehicle_circle/tweet/reply_list", params, handler);
+    }
+
 }

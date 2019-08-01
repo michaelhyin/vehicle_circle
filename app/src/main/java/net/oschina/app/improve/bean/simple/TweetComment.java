@@ -1,5 +1,7 @@
 package net.oschina.app.improve.bean.simple;
 
+import net.oschina.app.bean.Comment;
+
 import java.io.Serializable;
 
 /**
@@ -14,6 +16,8 @@ public class TweetComment implements Serializable {
     private int appClient;
     private Author author;
     private int replyNum;
+    private boolean liked;
+    private Reply[] replies;
     public long getId() {
         return id;
     }
@@ -54,6 +58,14 @@ public class TweetComment implements Serializable {
         this.author = author;
     }
 
+    public boolean getLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
+
     public int getReplyNum() {
         return replyNum;
     }
@@ -61,5 +73,10 @@ public class TweetComment implements Serializable {
     public void setReplyNum(int replyNum) {
         this.replyNum = replyNum;
     }
+
+    public Reply[] getReplies() {
+       return replies;
+    }
+
 
 }

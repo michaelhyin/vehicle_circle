@@ -27,6 +27,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 import net.oschina.app.AppContext;
 import net.oschina.app.R;
+import net.oschina.app.api.remote.FuelTankApi;
 import net.oschina.app.api.remote.OSChinaApi;
 import net.oschina.app.improve.account.AccountHelper;
 import net.oschina.app.improve.account.activity.LoginActivity;
@@ -335,7 +336,7 @@ public class TweetDetailActivity extends BackActivity implements TweetDetailCont
                 }
                 if (replies.size() > 0)
                     content = mDelegation.getBottomSheet().getEditText().getHint() + ": " + content;
-                OSChinaApi.pubTweetComment(tweet.getId(), content, 0, publishCommentHandler);
+                FuelTankApi.pubTweetComment(tweet.getId(), content, 0L, publishCommentHandler);
             }
         });
         resolveVoice();
