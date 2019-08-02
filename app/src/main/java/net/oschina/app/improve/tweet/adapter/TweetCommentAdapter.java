@@ -73,13 +73,22 @@ public class TweetCommentAdapter extends BaseRecyclerAdapter<TweetComment> {
             {
                 //https://blog.csdn.net/xudailong_blog/article/details/86513668
                 Reply reply = replies[i];
-                String str1 = reply.getAuthor().getName() + "：";
-                SpannableStringBuilder span1 = new SpannableStringBuilder(str1);
+                String fromAuthorName = reply.getFromAuthor().getName();
+                SpannableStringBuilder span1 = new SpannableStringBuilder(fromAuthorName);
                 ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(ContextCompat.getColor(getContext(),R.color.follow_text_enable_color));
-                span1.setSpan(foregroundColorSpan, 2, str1.length() - 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                span1.setSpan(foregroundColorSpan, 0, fromAuthorName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 //SpannableString spannableString = EmojiConversionUtils.getInstance().getExpressionString(context, spannableStr);
 
-                SpannableString spannableString = new SpannableString(reply.getContent());
+                SpannableString spannableString;
+                if (reply.getReplyType() == 1) //当评论下回复为回复的回复时
+                {
+                    spannableString = new SpannableString(" 回复 ");
+                    span1.append(spannableString);
+                    SpannableStringBuilder span2 = new SpannableStringBuilder(reply.getToAuthor().getName());
+                    span2.setSpan(foregroundColorSpan, 0, fromAuthorName.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    span1.append(span2);
+                }
+                spannableString = new SpannableString(": " + reply.getContent()+"\n");
                 span1.append(spannableString);
                 span.append(span1);
             }
